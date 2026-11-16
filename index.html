@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mkopo kutoka Jessica Magufuli</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #222;
+}
+
+header {
+  background: #063b2b;
+  color: white;
+  padding: 25px 15px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 25px;
+}
+
+nav {
+  background: #075b40;
+  padding: 13px;
+  text-align: center;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 10px;
+}
+
+.hero {
+  text-align: center;
+  padding: 45px 15px;
+  background: white;
+}
+
+.hero h2 {
+  color: #075b40;
+  font-size: 27px;
+}
+
+button {
+  background: #087b50;
+  color: white;
+  border: none;
+  padding: 13px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.container {
+  max-width: 600px;
+  margin: 25px auto;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  padding: 22px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px #ddd;
+  margin-bottom: 20px;
+}
+
+input, select {
+  width: 100%;
+  padding: 13px;
+  margin: 9px 0 17px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+label {
+  font-weight: bold;
+}
+
+footer {
+  background: #063b2b;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>MKOPO KUTOKA JESSICA MAGUFULI</h1>
+  <p>Loan Information and Application Portal</p>
+</header>
+
+<nav>
+  <a href="#home">Home</a>
+  <a href="#calculator">Calculator</a>
+  <a href="#apply">Apply</a>
+</nav>
+
+<section class="hero" id="home">
+  <h2>Welcome to Our Loan Portal</h2>
+  <p>Explore loan information and submit an application for review.</p>
+  <button onclick="document.getElementById('apply').scrollIntoView()">
+    Apply Now
+  </button>
+</section>
+
+<div class="container">
+
+  <section class="card" id="calculator">
+    <h2>Loan Calculator</h2>
+
+    <label>Loan Amount (TSh)</label>
+    <input type="number" id="amount" placeholder="Enter amount">
+
+    <label>Repayment Period (Months)</label>
+    <input type="number" id="months" placeholder="Enter months">
+
+    <button onclick="calculateLoan()">Calculate</button>
+
+    <h3 id="result"></h3>
+    <p>Illustrative calculation only. Actual interest and repayment terms must be disclosed before accepting a loan.</p>
+  </section>
+
+  <section class="card" id="apply">
+    <h2>Loan Application</h2>
+
+    <form onsubmit="submitApplication(event)">
+
+      <label>Full Name</label>
+      <input type="text" id="name" required>
+
+      <label>Phone Number</label>
+      <input type="tel" id="phone" required>
+
+      <label>Loan Amount (TSh)</label>
+      <input type="number" id="loan" min="1" required>
+
+      <label>Monthly Income (TSh)</label>
+      <input type="number" id="income" min="0" required>
+
+      <label>Repayment Period</label>
+      <select id="period" required>
+        <option value="">Select period</option>
+        <option>1 month</option>
+        <option>3 months</option>
+        <option>6 months</option>
+        <option>12 months</option>
+      </select>
+
+      <label>Preferred Payment Method</label>
+      <select id="payment" required>
+        <option value="">Choose payment method</option>
+        <option>Mixx by Yas</option>
+        <option>HaloPesa</option>
+      </select>
+
+      <p>
+        <input type="checkbox" id="consent" required style="width:auto">
+        I agree to the processing of my application information
+        according to the published privacy policy.
+      </p>
+
+      <button type="submit">Submit Application</button>
+
+      <p id="message"></p>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Important Information</h2>
+    <p>Submitting an application does not guarantee loan approval.</p>
+    <p>Review all loan terms, interest, charges and repayment obligations before accepting any offer.</p>
+    <p>Never share your mobile-money PIN, OTP or password with anyone.</p>
+    <p>Do not make advance payments to secure loan approval.</p>
+  </section>
+
+</div>
+
+<footer>
+  <p>© 2026 Jessica Magufuli Loan Portal</p>
+</footer>
+
+<script>
+function calculateLoan() {
+  let amount = Number(document.getElementById("amount").value);
+  let months = Number(document.getElementById("months").value);
+
+  if (amount <= 0 || months <= 0) {
+    document.getElementById("result").innerText =
+      "Enter a valid amount and period.";
+    return;
+  }
+
+  document.getElementById("result").innerText =
+    "Illustrative monthly principal: TSh " +
+    (amount / months).toLocaleString("en-US");
+}
+
+function submitApplication(event) {
+  event.preventDefault();
+
+  document.getElementById("message").innerText =
+    "The application form is a demonstration and is not yet connected. Please wait for the secure application system to be activated.";
+}
+</script>
+
+</body>
+        </html>
