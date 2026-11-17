@@ -1,8 +1,12 @@
+const { randomUUID } = require("crypto");
+
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
-      body: JSON.stringify({ message: "Method not allowed" })
+      body: JSON.stringify({
+        message: "Method not allowed"
+      })
     };
   }
 
@@ -10,11 +14,11 @@ exports.handler = async (event) => {
     const data = JSON.parse(event.body || "{}");
 
     const application = {
-      application_id: crypto.randomUUID(),
+      application_id: randomUUID(),
       full_name: data.name,
       phone: data.phone,
       amount_tsh: Number(data.loan),
-      term_months: Number(data.period),
+      term_months: Number.parseInt(data.period, 10),
       monthly_income_tsh: Number(data.income || 0)
     };
 
