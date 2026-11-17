@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Mkopo kutoka Jessica Magufuli</title>
 
 <style>
@@ -25,13 +26,12 @@ header {
 }
 
 header h1 {
-  margin: 0;
-  font-size: 25px;
+  font-size: 24px;
 }
 
 nav {
   background: #075b40;
-  padding: 13px;
+  padding: 14px;
   text-align: center;
 }
 
@@ -49,7 +49,6 @@ nav a {
 
 .hero h2 {
   color: #075b40;
-  font-size: 27px;
 }
 
 button {
@@ -64,7 +63,7 @@ button {
 .container {
   max-width: 600px;
   margin: 25px auto;
-  padding: 20px;
+  padding: 15px;
 }
 
 .card {
@@ -93,6 +92,11 @@ footer {
   padding: 20px;
   text-align: center;
 }
+
+#message {
+  font-weight: bold;
+  overflow-wrap: anywhere;
+}
 </style>
 </head>
 
@@ -112,6 +116,7 @@ footer {
 <section class="hero" id="home">
   <h2>Welcome to Our Loan Portal</h2>
   <p>Explore loan information and submit an application for review.</p>
+
   <button onclick="document.getElementById('apply').scrollIntoView()">
     Apply Now
   </button>
@@ -119,73 +124,91 @@ footer {
 
 <div class="container">
 
-  <section class="card" id="calculator">
-    <h2>Loan Calculator</h2>
+<section class="card" id="calculator">
+  <h2>Loan Calculator</h2>
+
+  <label>Loan Amount (TSh)</label>
+  <input type="number" id="amount" min="1" placeholder="Enter amount">
+
+  <label>Repayment Period (Months)</label>
+  <input type="number" id="months" min="1" placeholder="Enter months">
+
+  <button onclick="calculateLoan()">Calculate</button>
+
+  <h3 id="result"></h3>
+
+  <p>
+    This is an illustrative calculation, not a loan offer.
+    Actual interest and repayment terms must be disclosed.
+  </p>
+</section>
+
+<section class="card" id="apply">
+  <h2>Loan Application</h2>
+
+  <form id="applicationForm" onsubmit="submitApplication(event)">
+
+    <label>Full Name</label>
+    <input type="text" id="name" required maxlength="100">
+
+    <label>Phone Number</label>
+    <input type="tel" id="phone" required maxlength="20">
 
     <label>Loan Amount (TSh)</label>
-    <input type="number" id="amount" placeholder="Enter amount">
+    <input type="number" id="loan" min="1" required>
 
-    <label>Repayment Period (Months)</label>
-    <input type="number" id="months" placeholder="Enter months">
+    <label>Monthly Income (TSh)</label>
+    <input type="number" id="income" min="0" required>
 
-    <button onclick="calculateLoan()">Calculate</button>
+    <label>Repayment Period</label>
+    <select id="period" required>
+      <option value="">Select period</option>
+      <option value="1 month">1 month</option>
+      <option value="3 months">3 months</option>
+      <option value="6 months">6 months</option>
+      <option value="12 months">12 months</option>
+    </select>
 
-    <h3 id="result"></h3>
-    <p>Illustrative calculation only. Actual interest and repayment terms must be disclosed before accepting a loan.</p>
-  </section>
+    <label>Preferred Payment Method</label>
+    <select id="payment" required>
+      <option value="">Choose payment method</option>
+      <option value="Mixx by Yas">Mixx by Yas</option>
+      <option value="HaloPesa">HaloPesa</option>
+    </select>
 
-  <section class="card" id="apply">
-    <h2>Loan Application</h2>
+    <p>
+      <input type="checkbox" id="consent" required style="width:auto">
+      I consent to the processing of my application information
+      according to the privacy policy.
+    </p>
 
-    <form onsubmit="submitApplication(event)">
+    <button type="submit" id="submitButton">
+      Submit Application
+    </button>
 
-      <label>Full Name</label>
-      <input type="text" id="name" required>
+    <p id="message" role="status"></p>
 
-      <label>Phone Number</label>
-      <input type="tel" id="phone" required>
+  </form>
+</section>
 
-      <label>Loan Amount (TSh)</label>
-      <input type="number" id="loan" min="1" required>
+<section class="card">
+  <h2>Important Information</h2>
 
-      <label>Monthly Income (TSh)</label>
-      <input type="number" id="income" min="0" required>
+  <p>Submitting an application does not guarantee approval.</p>
 
-      <label>Repayment Period</label>
-      <select id="period" required>
-        <option value="">Select period</option>
-        <option>1 month</option>
-        <option>3 months</option>
-        <option>6 months</option>
-        <option>12 months</option>
-      </select>
+  <p>
+    Review all interest rates, charges and repayment obligations
+    before accepting a loan.
+  </p>
 
-      <label>Preferred Payment Method</label>
-      <select id="payment" required>
-        <option value="">Choose payment method</option>
-        <option>Mixx by Yas</option>
-        <option>HaloPesa</option>
-      </select>
+  <p>
+    Never share your mobile-money PIN, OTP or password.
+  </p>
 
-      <p>
-        <input type="checkbox" id="consent" required style="width:auto">
-        I agree to the processing of my application information
-        according to the published privacy policy.
-      </p>
-
-      <button type="submit">Submit Application</button>
-
-      <p id="message"></p>
-    </form>
-  </section>
-
-  <section class="card">
-    <h2>Important Information</h2>
-    <p>Submitting an application does not guarantee loan approval.</p>
-    <p>Review all loan terms, interest, charges and repayment obligations before accepting any offer.</p>
-    <p>Never share your mobile-money PIN, OTP or password with anyone.</p>
-    <p>Do not make advance payments to secure loan approval.</p>
-  </section>
+  <p>
+    Do not pay advance fees to secure loan approval.
+  </p>
+</section>
 
 </div>
 
@@ -194,28 +217,78 @@ footer {
 </footer>
 
 <script>
+
 function calculateLoan() {
-  let amount = Number(document.getElementById("amount").value);
-  let months = Number(document.getElementById("months").value);
+  const amount = Number(document.getElementById("amount").value);
+  const months = Number(document.getElementById("months").value);
 
   if (amount <= 0 || months <= 0) {
     document.getElementById("result").innerText =
-      "Enter a valid amount and period.";
+      "Enter a valid amount and repayment period.";
     return;
   }
 
+  const monthly = amount / months;
+
   document.getElementById("result").innerText =
     "Illustrative monthly principal: TSh " +
-    (amount / months).toLocaleString("en-US");
+    monthly.toLocaleString("en-US");
 }
 
-function submitApplication(event) {
+async function submitApplication(event) {
   event.preventDefault();
 
-  document.getElementById("message").innerText =
-    "The application form is a demonstration and is not yet connected. Please wait for the secure application system to be activated.";
+  const form = document.getElementById("applicationForm");
+  const message = document.getElementById("message");
+  const button = document.getElementById("submitButton");
+
+  if (!document.getElementById("consent").checked) {
+    message.innerText = "Please provide consent first.";
+    return;
+  }
+
+  const data = {
+    name: document.getElementById("name").value.trim(),
+    phone: document.getElementById("phone").value.trim(),
+    loan: document.getElementById("loan").value,
+    income: document.getElementById("income").value,
+    period: document.getElementById("period").value,
+    payment: document.getElementById("payment").value
+  };
+
+  message.innerText = "Submitting application...";
+  button.disabled = true;
+
+  try {
+    const response = await fetch(
+      "/.netlify/functions/apply",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Submission failed.");
+    }
+
+    message.innerText = result.message;
+    form.reset();
+
+  } catch (error) {
+    message.innerText =
+      "Unable to submit. Please try again later.";
+  } finally {
+    button.disabled = false;
+  }
 }
+
 </script>
 
 </body>
-        </html>
+</html>
