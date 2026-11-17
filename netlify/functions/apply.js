@@ -2,22 +2,36 @@ exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
-      body: "Method not allowed"
+      body: JSON.stringify({ message: "Method not allowed" })
     };
   }
 
   try {
     const data = JSON.parse(event.body || "{}");
 
-    const required = ["name", "phone", "loan", "income", "period", "payment"];
+    const application = {
+      application_id: crypto.randomUUID(),
+      full_name: data.name,
+      phone: data.phone,
+      amount_tsh: Number(data.loan),
+      term_months: Number(data.period),
+      monthly_income_tsh: Number(data.income || 0)
+    };
 
-    for (const field of required) {
-      if (!data[field]) {
-        return {
-          statusCode: 400,
-          body: JSON.stringify({ message: "Please complete all fields." })
-        };
-      }
+    if (
+      !application.full_name ||
+      !application.phone ||
+      !Number.isFinite(application.amount_tsh) ||
+      application.amount_tsh <= 0 ||
+      !Number.isInteger(application.term_months) ||
+      application.term_months <= 0
+    ) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          message: "Please enter valid application details."
+        })
+      };
     }
 
     const response = await fetch(
@@ -28,12 +42,13 @@ exports.handler = async (event) => {
           "Content-Type": "application/json",
           "X-Webhook-Secret": process.env.WEBHOOK_SECRET
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(application)
       }
     );
 
     if (!response.ok) {
-      throw new Error("Application forwarding failed");
+      const error = await response.text();
+      throw new Error(error);
     }
 
     return {
@@ -44,6 +59,8 @@ exports.handler = async (event) => {
     };
 
   } catch (error) {
+    console.error("Application error:", error);
+
     return {
       statusCode: 500,
       body: JSON.stringify({
